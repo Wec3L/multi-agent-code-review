@@ -4,6 +4,8 @@ A hand-built multi-agent workflow for an AI coding assistant (Codex CLI). Five s
 
 Built step by step as a practical assignment to learn how multi-agent systems work from the inside: roles, hand-offs, limits, loops and observability.
 
+![Live dashboard](docs/dashboard.png)
+
 ## How it works
 
 ```
@@ -87,7 +89,7 @@ Run the tests:
 python -m unittest discover tests
 ```
 
-Last run (2026-11-02): all 8 tests passed, no returns to the Developer were needed, review verdict OK, overall result PASS. Details in `reports/last-run.md`.
+Last run (2026-11-02, repeated check of `src/`): all 8 tests passed, no returns to the Developer were needed, review verdict OK, overall result PASS. Source code and tests were unchanged. Details in `reports/last-run.md`.
 
 ## Project structure
 
