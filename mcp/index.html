@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Agents Workflow</title>
+<style>
+  body { font-family: Arial, sans-serif; background: #111; color: #eee; padding: 30px; }
+  h1 { font-size: 22px; }
+  .row { display: flex; align-items: center; gap: 10px; margin: 30px 0; }
+  .agent { width: 150px; padding: 16px; border-radius: 10px; text-align: center; background: #555; transition: 0.3s; }
+  .agent b { display: block; margin-bottom: 6px; }
+  .agent small { font-size: 12px; opacity: 0.85; }
+  .arrow { font-size: 26px; color: #888; }
+  .waiting { background: #555; }
+  .running { background: #c9a400; color: #111; }
+  .done { background: #2e9e4f; }
+  .failed { background: #c0392b; }
+  .loop { outline: 3px dashed #ff7b00; }
+  #loopInfo { color: #ff7b00; min-height: 20px; }
+  button { background: #333; color: #eee; border: 1px solid #666; padding: 8px 14px; border-radius: 6px; cursor: pointer; }
+  #events { margin-top: 20px; font-family: monospace; font-size: 14px; }
+  .event { padding: 4px 0; border-bottom: 1px solid #222; }
+</style>
+</head>
+<body>
+  <h1>Конвейер агентов</h1>
+  <button onclick="resetRun()">Сбросить прогон</button>
+  <div class="row" id="row"></div>
+  <div id="loopInfo"></div>
+  <h2>Лента событий</h2>
+  <div id="events"></div>
+
+<script>
+  const AGENTS = [
+    ["conductor", "Дирижёр"],
+    ["developer", "Разработчик"],
+    ["tester", "Тестировщик"],
+    ["reviewer", "Ревьюер"],
+    ["documenter", "Документатор"]
+  ];
+
+  function render(state) {
+    const row = document.getElementById("row");
+    row.innerHTML = "";
+    AGENTS.forEach(([id, name], i) => {
+      const info = state.agents[id] || { status: "waiting", summary: "ждёт" };
+      const box = document.createElement("div");
+      box.className = "agent " + info.status;
+      box.id = "agent-" + id;
+      box.innerHTML = "<b>" + name + "</b><small>" + info.summary + "</small>";
+      row.appendChild(box);
+      if (i < AGENTS.length - 1) {
+        const arrow = document.createElement("span");
+        arrow.className = "arrow";
+        arrow.textContent = "→";
+        row.appendChild(arrow);
+      }
+    });
+
+    const loops = countLoops(state.events);
+    const loopInfo = document.getElementById("loopInfo");
+    if (loops > 0) {
+      document.getElementById("agent-developer").classList.add("loop");
+      document.getElementById("agent-tester").classList.add("loop");
+      loopInfo.textContent = "Возврат к Разработчику: " + loops + " из 2";
+    } else {
+      loopInfo.textContent = "";
+    }
+
+    const events = document.getElementById("events");
+    events.innerHTML = state.events.slice().reverse().map(e =>
+      '<div class="event">' + e.time + " · " + e.agent + " · " + e.status + " · " + e.summary + "</div>"
+    ).join("");
+  }
+
+  function countLoops(events) {
+    let loops = 0;
+    let testerFailed = false;
+    for (const e of events) {
+      if (e.agent === "tester" && e.status === "failed") testerFailed = true;
+      if (e.agent === "developer" && e.status === "running" && testerFailed) {
+        loops++;
+        testerFailed = false;
+      }
+    }
+    return loops;
+  }
+
+  async function update() {
+    try {
+      const res = await fetch("/state");
+      render(await res.json());
+    } catch (e) {}
+  }
+
+  async function resetRun() {
+    await fetch("/reset", { method: "POST" });
+    update();
+  }
+
+  update();
+  setInterval(update, 1000);
+</script>
+</body>
+</html>

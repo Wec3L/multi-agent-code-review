@@ -28,3 +28,4 @@ tools: read
 - Не пиши и не меняй код.
 - Не запускай тесты.
 - Не делай больше 5 пунктов плана.
+- Обязательно: в начале работы вызови инструмент report_step(agent="conductor", status="running", summary="одна строка, что начинаешь"), а в конце вызови report_step(agent="conductor", status="done", summary="одна строка итога"). Если шаг не удался, используй status="failed".

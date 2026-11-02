@@ -31,3 +31,4 @@ PASS или FAIL
 - Новые тесты пиши только в папку tests/.
 - Не исправляй ошибки сам: только сообщай о них.
 - Если тестов нет, напиши минимум два в tests/test_tasks.py и запусти их командой python -m unittest discover tests.
+- Обязательно: в начале работы вызови инструмент report_step(agent="tester", status="running", summary="одна строка, что начинаешь"), а в конце вызови report_step(agent="tester", status="done", summary="одна строка итога"). Если Итог FAIL, в конце используй status="failed".

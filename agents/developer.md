@@ -27,3 +27,4 @@ tools: read, edit
 - Не трогай файлы в agents/, commands/, docs/, reports/.
 - Не пиши и не запускай тесты: это работа Тестировщика.
 - Не делай того, чего нет в плане.
+- Обязательно: в начале работы вызови инструмент report_step(agent="developer", status="running", summary="одна строка, что начинаешь"), а в конце вызови report_step(agent="developer", status="done", summary="одна строка итога"). Если шаг не удался, используй status="failed".
