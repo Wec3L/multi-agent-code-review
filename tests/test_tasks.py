@@ -103,9 +103,5 @@ class TasksTests(unittest.TestCase):
                 self.assertEqual(result.returncode, expected)
                 self.assertNotIn("Traceback", result.stderr)
 
-class BrokenOnPurposeTest(unittest.TestCase):
-    def test_intentionally_broken(self):
-        # Намеренно сломанный тест для микро-задачи №6
-        self.assertEqual(1 + 1, 3)
 if __name__ == "__main__":
     unittest.main()
