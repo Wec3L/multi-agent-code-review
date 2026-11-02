@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ru">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -529,42 +529,42 @@
           <div class="logo" aria-hidden="true">⌘</div>
           <div>
             <div class="eyebrow">WORKFLOW / CONTROL CENTER</div>
-            <h1>Конвейер агентов<span style="color: var(--green)">_</span></h1>
-            <p class="subtitle">Оркестрация · разработка · тестирование · ревью · документация</p>
+            <h1>Agent Pipeline<span style="color: var(--green)">_</span></h1>
+            <p class="subtitle">Orchestration · development · testing · review · documentation</p>
           </div>
         </div>
         <div class="actions">
           <div class="connection">
             <span id="connectionDot" class="dot"></span
-            ><span id="connectionText">Подключение...</span>
+            ><span id="connectionText">Connecting...</span>
           </div>
-          <button id="resetButton" class="btn" type="button">↻ &nbsp; Сбросить прогон</button>
+          <button id="resetButton" class="btn" type="button">↻ &nbsp; Reset run</button>
         </div>
       </header>
-      <section class="metrics" aria-label="Статистика">
+      <section class="metrics" aria-label="Stats">
         <div class="metric">
-          <div class="metric-label">Агентов</div>
+          <div class="metric-label">Agents</div>
           <div class="metric-value">
             05 <span style="font-size: 12px; color: var(--muted)">/ 05</span>
           </div>
         </div>
         <div class="metric">
-          <div class="metric-label">Завершено</div>
+          <div class="metric-label">Completed</div>
           <div class="metric-value green" id="doneCount">0</div>
         </div>
         <div class="metric">
-          <div class="metric-label">Событий</div>
+          <div class="metric-label">Events</div>
           <div class="metric-value" id="eventCount">0</div>
         </div>
         <div class="metric">
-          <div class="metric-label">Возвратов / лимит</div>
+          <div class="metric-label">Returns / limit</div>
           <div class="metric-value amber" id="loopCount">0 / 2</div>
         </div>
       </section>
       <section>
         <div class="section-head">
           <h2><span style="color: var(--green)">01 /</span> AGENT PIPELINE</h2>
-          <span class="section-tag">НАЖМИТЕ НА АГЕНТА ДЛЯ ПОДРОБНОСТЕЙ</span>
+          <span class="section-tag">CLICK AN AGENT FOR DETAILS</span>
         </div>
         <div class="pipeline">
           <div class="pipeline-track" id="row"></div>
@@ -577,20 +577,20 @@
             <span class="light"></span><span class="light"></span><span class="light"></span
             ><span class="terminal-title">events.log — LIVE STREAM</span>
             <div class="terminal-tools">
-              <select id="agentFilter" class="select" aria-label="Фильтр по агенту">
-                <option value="all">Все агенты</option></select
-              ><select id="statusFilter" class="select" aria-label="Фильтр по статусу">
-                <option value="all">Все статусы</option>
+              <select id="agentFilter" class="select" aria-label="Filter by agent">
+                <option value="all">All agents</option></select
+              ><select id="statusFilter" class="select" aria-label="Filter by status">
+                <option value="all">All statuses</option>
                 <option value="running">running</option>
                 <option value="done">done</option>
                 <option value="failed">failed</option></select
-              ><button class="mini-btn" id="copyLogs" type="button">Копировать</button>
+              ><button class="mini-btn" id="copyLogs" type="button">Copy</button>
             </div>
           </div>
           <div class="log-head">
-            <span>ВРЕМЯ</span><span>АГЕНТ</span><span>СТАТУС</span><span>СОБЫТИЕ</span>
+            <span>TIME</span><span>AGENT</span><span>STATUS</span><span>EVENT</span>
           </div>
-          <div class="logs" id="events" role="log" aria-label="Лента событий"></div>
+          <div class="logs" id="events" role="log" aria-label="Event feed"></div>
         </section>
         <aside class="inspector">
           <div class="terminal-top">
@@ -600,29 +600,29 @@
           </div>
           <div class="inspector-body">
             <div class="inspect-id" id="inspectId">AGENT / 01</div>
-            <div class="inspect-title" id="inspectTitle">Дирижёр</div>
+            <div class="inspect-title" id="inspectTitle">Conductor</div>
             <div class="inspect-status" id="inspectStatus">STATUS: WAITING</div>
             <div class="inspect-divider"></div>
-            <div class="inspect-label">ПОСЛЕДНИЙ РЕЗУЛЬТАТ</div>
-            <div class="inspect-summary" id="inspectSummary">Ожидание данных сервера...</div>
+            <div class="inspect-label">LAST RESULT</div>
+            <div class="inspect-summary" id="inspectSummary">Waiting for server data...</div>
             <div class="inspect-divider"></div>
-            <div class="inspect-label">ПОСЛЕДНЕЕ СОБЫТИЕ</div>
-            <div class="inspect-summary" id="inspectEvent">Нет событий</div>
-            <div class="inspect-note">Данные синхронизируются с /state каждую секунду.</div>
+            <div class="inspect-label">LAST EVENT</div>
+            <div class="inspect-summary" id="inspectEvent">No events</div>
+            <div class="inspect-note">Data syncs with /state every second.</div>
           </div>
         </aside>
       </div>
       <footer class="footer">
-        <span>AGENT CONTROL / TERMINAL OS v2</span><span id="lastSync">Ожидание синхронизации</span>
+        <span>AGENT CONTROL / TERMINAL OS v2</span><span id="lastSync">Waiting for sync</span>
       </footer>
     </main>
     <script>
       const AGENTS = [
-        ["conductor", "Дирижёр", "◈"],
-        ["developer", "Разработчик", "⌘"],
-        ["tester", "Тестировщик", "⚗"],
-        ["reviewer", "Ревьюер", "◎"],
-        ["documenter", "Документатор", "▤"],
+        ["conductor", "Conductor", "◈"],
+        ["developer", "Developer", "⌘"],
+        ["tester", "Tester", "⚗"],
+        ["reviewer", "Reviewer", "◎"],
+        ["documenter", "Documenter", "▤"],
       ];
       let currentState = { agents: {}, events: [] };
       let selectedAgent = "conductor";
@@ -651,11 +651,11 @@
         setText("doneCount", AGENTS.filter(([id]) => agentStates[id]?.status === "done").length);
         setText("eventCount", allEvents.length);
         setText("loopCount", loops + " / 2");
-        setText("loopInfo", loops ? "↳ Возврат к разработчику: " + loops + " из 2" : "");
+        setText("loopInfo", loops ? "↳ Return to Developer: " + loops + " of 2" : "");
         const row = $("row");
         row.replaceChildren();
         AGENTS.forEach(([id, name, icon], i) => {
-          const info = agentStates[id] || { status: "waiting", summary: "ждёт" };
+          const info = agentStates[id] || { status: "waiting", summary: "waiting" };
           const box = document.createElement("button");
           box.type = "button";
           box.className =
@@ -684,7 +684,7 @@
           status.textContent = "● " + String(info.status || "waiting").toUpperCase();
           const summary = document.createElement("div");
           summary.className = "agent-summary";
-          summary.textContent = info.summary ?? "ждёт";
+          summary.textContent = info.summary ?? "waiting";
           box.append(top, title, status, summary);
           box.addEventListener("click", () => {
             selectedAgent = id;
@@ -702,11 +702,11 @@
           AGENTS.findIndex((a) => a[0] === selectedAgent),
           AGENTS.find((a) => a[0] === selectedAgent)?.[1] || selectedAgent,
         ];
-        const selected = agentStates[selectedAgent] || { status: "waiting", summary: "ждёт" };
+        const selected = agentStates[selectedAgent] || { status: "waiting", summary: "waiting" };
         setText("inspectId", "AGENT / " + String(index + 1).padStart(2, "0"));
         setText("inspectTitle", name);
         setText("inspectStatus", "STATUS: " + String(selected.status || "waiting").toUpperCase());
-        setText("inspectSummary", selected.summary || "Нет данных");
+        setText("inspectSummary", selected.summary || "No data");
         const lastEvent = allEvents
           .slice()
           .reverse()
@@ -715,7 +715,7 @@
           "inspectEvent",
           lastEvent
             ? `${lastEvent.time || ""} · ${lastEvent.status || ""}\n${lastEvent.summary || ""}`
-            : "Нет событий",
+            : "No events",
         );
         renderEvents();
       }
@@ -734,7 +734,7 @@
         if (!events.length) {
           const empty = document.createElement("div");
           empty.className = "empty";
-          empty.textContent = "// Событий пока нет";
+          empty.textContent = "// No events yet";
           container.appendChild(empty);
           return;
         }
@@ -778,10 +778,10 @@
         try {
           await navigator.clipboard.writeText(text);
           const btn = $("copyLogs");
-          btn.textContent = "Скопировано ✓";
-          setTimeout(() => (btn.textContent = "Копировать"), 1400);
+          btn.textContent = "Copied ✓";
+          setTimeout(() => (btn.textContent = "Copy"), 1400);
         } catch {
-          alert("Не удалось скопировать лог");
+          alert("Could not copy the log");
         }
       });
       async function update() {
@@ -792,15 +792,15 @@
           if (!res.ok) throw Error("HTTP " + res.status);
           const data = await res.json();
           if (!data || typeof data !== "object" || !data.agents || !Array.isArray(data.events))
-            throw Error("Неверный формат /state");
+            throw Error("Invalid /state format");
           render(data);
           $("connectionDot").className = "dot online";
-          setText("connectionText", "СЕРВЕР ONLINE");
-          setText("lastSync", "SYNC " + new Date().toLocaleTimeString("ru-RU"));
+          setText("connectionText", "SERVER ONLINE");
+          setText("lastSync", "SYNC " + new Date().toLocaleTimeString("en-GB"));
         } catch (e) {
           $("connectionDot").className = "dot offline";
-          setText("connectionText", "СЕРВЕР OFFLINE");
-          setText("lastSync", "Ошибка соединения: " + e.message);
+          setText("connectionText", "SERVER OFFLINE");
+          setText("lastSync", "Connection error: " + e.message);
         } finally {
           updating = false;
         }
@@ -813,7 +813,7 @@
           if (!res.ok) throw Error("HTTP " + res.status);
           await update();
         } catch (e) {
-          alert("Не удалось сбросить прогон: " + e.message);
+          alert("Could not reset the run: " + e.message);
         } finally {
           btn.disabled = false;
         }

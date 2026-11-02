@@ -89,7 +89,7 @@ Run the tests:
 python -m unittest discover tests
 ```
 
-Last run (2026-11-02, repeated check of `src/`): all 8 tests passed, no returns to the Developer were needed, review verdict OK, overall result PASS. Source code and tests were unchanged. Details in `reports/last-run.md`.
+Last run (2026-11-02 16:13:04, check of src/): all 8 tests passed in 0.343 s, no returns to the Developer were needed, review verdict OK, overall result PASS. Source code and tests were unchanged. Details in reports/last-run.md.
 
 ## Project structure
 
