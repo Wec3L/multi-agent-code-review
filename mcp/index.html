@@ -2,104 +2,35 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<title>Agents Workflow</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agent Control — Terminal OS</title>
 <style>
-  body { font-family: Arial, sans-serif; background: #111; color: #eee; padding: 30px; }
-  h1 { font-size: 22px; }
-  .row { display: flex; align-items: center; gap: 10px; margin: 30px 0; }
-  .agent { width: 150px; padding: 16px; border-radius: 10px; text-align: center; background: #555; transition: 0.3s; }
-  .agent b { display: block; margin-bottom: 6px; }
-  .agent small { font-size: 12px; opacity: 0.85; }
-  .arrow { font-size: 26px; color: #888; }
-  .waiting { background: #555; }
-  .running { background: #c9a400; color: #111; }
-  .done { background: #2e9e4f; }
-  .failed { background: #c0392b; }
-  .loop { outline: 3px dashed #ff7b00; }
-  #loopInfo { color: #ff7b00; min-height: 20px; }
-  button { background: #333; color: #eee; border: 1px solid #666; padding: 8px 14px; border-radius: 6px; cursor: pointer; }
-  #events { margin-top: 20px; font-family: monospace; font-size: 14px; }
-  .event { padding: 4px 0; border-bottom: 1px solid #222; }
+:root{color-scheme:dark;--bg:#080d0b;--panel:#0d1612;--panel2:#101d17;--line:#23382d;--text:#e3f4e9;--muted:#7f9c8c;--green:#42f5a1;--amber:#f3bc59;--red:#ff6d73;--blue:#80bfff}*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 75% -20%,#103522 0,transparent 48%),var(--bg);color:var(--text);font:14px/1.5 system-ui,-apple-system,Segoe UI,sans-serif}button,select{font:inherit}button{cursor:pointer}button:focus-visible,select:focus-visible,.agent:focus-visible{outline:2px solid var(--green);outline-offset:3px}.shell{max-width:1530px;margin:auto;padding:32px clamp(18px,4vw,64px) 60px}.eyebrow,.mono,.metric-label,.agent-code,.agent-status,.log-head,.log-row,.terminal-top,.chip{font-family:ui-monospace,SFMono-Regular,Consolas,monospace}.eyebrow{color:var(--green);font-size:11px;letter-spacing:.2em}.top{display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap}.brand{display:flex;align-items:center;gap:18px}.logo{width:54px;height:54px;display:grid;place-items:center;border:1px solid #246e4c;background:#0b281a;border-radius:14px;color:var(--green);font-size:29px;box-shadow:0 0 35px #00ff8820}h1{margin:3px 0 0;font-size:clamp(23px,2.5vw,33px);letter-spacing:-.045em}.subtitle{color:var(--muted);margin:5px 0 0}.actions{display:flex;gap:12px;align-items:center;flex-wrap:wrap}.connection{display:flex;gap:8px;align-items:center;color:var(--muted);font-family:monospace;font-size:12px}.dot{width:8px;height:8px;border-radius:50%;background:var(--amber);box-shadow:0 0 12px currentColor}.dot.online{background:var(--green)}.dot.offline{background:var(--red)}.btn{background:#132219;color:var(--text);border:1px solid #31513d;border-radius:9px;padding:11px 15px;transition:.2s}.btn:hover{border-color:var(--green);background:#1a3022}.btn:disabled{opacity:.5;cursor:wait}.metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:30px 0 28px}.metric{border:1px solid var(--line);border-radius:12px;background:#0d1713d9;padding:17px 19px}.metric-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em}.metric-value{font-size:25px;font-weight:700;margin-top:8px;letter-spacing:-.04em}.metric-value.green{color:var(--green)}.metric-value.amber{color:var(--amber)}.section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:0 0 16px}.section-head h2{font-size:16px;margin:0;letter-spacing:-.02em}.section-tag{font:11px monospace;color:var(--muted)}.pipeline{border:1px solid var(--line);border-radius:15px;background:linear-gradient(150deg,#101d17ee,#0b120fee);padding:26px 20px;overflow-x:auto}.pipeline-track{display:flex;align-items:stretch;gap:0;min-width:860px}.agent{flex:1;min-width:0;position:relative;text-align:left;padding:18px 14px 15px;border:1px solid #2a4635;background:#101e17;border-radius:11px;color:var(--text);transition:background .2s,border-color .2s,transform .2s;min-height:172px}.agent:hover{border-color:#60c891;transform:translateY(-2px)}.agent.selected{border-color:var(--green);box-shadow:0 0 0 1px #42f5a13d}.agent.running{border-color:var(--amber);box-shadow:inset 0 0 25px #f3bc590d;animation:breath 2s ease-in-out infinite}.agent.done{border-color:#2d7850}.agent.failed{border-color:#a7484d}.agent.loop{outline:1px dashed var(--amber);outline-offset:4px}.agent-top{display:flex;justify-content:space-between;align-items:center}.agent-icon{color:var(--green);font:24px monospace}.agent-code{color:var(--muted);font-size:10px}.agent-name{font-weight:700;font-size:15px;margin-top:19px}.agent-status{font-size:10px;letter-spacing:.08em;margin-top:6px;color:var(--muted)}.agent.running .agent-status{color:var(--amber)}.agent.done .agent-status{color:var(--green)}.agent.failed .agent-status{color:var(--red)}.agent-summary{color:#9db5a5;font-size:11px;margin-top:12px;line-height:1.5;overflow-wrap:anywhere;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}.connector{width:27px;min-width:27px;display:grid;place-items:center;color:#527761;font:20px monospace}.connector.active{color:var(--green);text-shadow:0 0 14px var(--green)}.loopinfo{min-height:22px;color:var(--amber);font:12px monospace;margin-top:15px}.below{display:grid;grid-template-columns:minmax(0,1.75fr) minmax(280px,1fr);gap:18px;margin-top:28px}.terminal,.inspector{border:1px solid var(--line);border-radius:13px;background:#0c1410;overflow:hidden;min-width:0}.terminal-top{display:flex;align-items:center;gap:8px;background:#14221a;border-bottom:1px solid var(--line);padding:13px 17px;font-size:11px;color:#9fbcaa}.light{height:8px;width:8px;border-radius:50%;background:#446f53}.light:first-child{background:#d9706c}.light:nth-child(2){background:#d5aa52}.light:nth-child(3){background:#53b57d}.terminal-title{margin-left:8px}.terminal-tools{display:flex;gap:8px;align-items:center;margin-left:auto;flex-wrap:wrap}.select{background:#0c1711;color:#b4d1bf;border:1px solid #34513c;border-radius:6px;padding:6px 7px;max-width:140px}.mini-btn{background:transparent;color:#b4d1bf;border:1px solid #34513c;border-radius:6px;padding:6px 9px}.mini-btn:hover{color:var(--green);border-color:var(--green)}.log-head,.log-row{display:grid;grid-template-columns:75px 104px 73px minmax(0,1fr);gap:12px;align-items:start;padding:11px 17px}.log-head{color:#648a72;font-size:10px;letter-spacing:.08em;border-bottom:1px solid var(--line)}.logs{height:390px;overflow:auto}.log-row{font-size:11px;color:#c3d6c9;border-bottom:1px solid #1b2a20}.log-row:hover{background:#14241a}.log-time{color:#779887}.log-agent{color:#8fc8a5}.log-status{color:#9cae9e}.log-status.done{color:var(--green)}.log-status.failed{color:var(--red)}.log-status.running{color:var(--amber)}.log-summary{overflow-wrap:anywhere}.empty{padding:35px 20px;color:var(--muted);font:12px monospace;text-align:center}.inspector-body{padding:23px}.inspect-id{font:11px monospace;color:var(--green);letter-spacing:.14em}.inspect-title{font-size:22px;font-weight:700;margin:12px 0 7px}.inspect-status{color:var(--muted);font:12px monospace}.inspect-divider{height:1px;background:var(--line);margin:24px 0}.inspect-label{color:#779887;font:11px monospace;letter-spacing:.12em;margin-bottom:11px}.inspect-summary{font:13px/1.7 monospace;white-space:pre-wrap;overflow-wrap:anywhere;color:#d4e9da}.inspect-note{color:var(--muted);font-size:12px;margin-top:18px}.footer{color:#597563;font:11px monospace;margin-top:22px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}@keyframes breath{50%{box-shadow:0 0 20px #f3bc5926}}@media(max-width:900px){.below{grid-template-columns:1fr}.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:540px){.shell{padding-top:20px}.metrics{gap:8px}.metric{padding:13px}.metric-value{font-size:20px}.terminal-top{flex-wrap:wrap}.terminal-tools{margin-left:0;width:100%}.log-head,.log-row{grid-template-columns:62px 70px 54px minmax(0,1fr);gap:6px;padding:10px 8px;font-size:10px}}@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
-  <h1>Конвейер агентов</h1>
-  <button onclick="resetRun()">Сбросить прогон</button>
-  <div class="row" id="row"></div>
-  <div id="loopInfo"></div>
-  <h2>Лента событий</h2>
-  <div id="events"></div>
-
+<main class="shell">
+<header class="top"><div class="brand"><div class="logo" aria-hidden="true">⌘</div><div><div class="eyebrow">WORKFLOW / CONTROL CENTER</div><h1>Конвейер агентов<span style="color:var(--green)">_</span></h1><p class="subtitle">Оркестрация · разработка · тестирование · ревью · документация</p></div></div><div class="actions"><div class="connection"><span id="connectionDot" class="dot"></span><span id="connectionText">Подключение...</span></div><button id="resetButton" class="btn" type="button">↻ &nbsp; Сбросить прогон</button></div></header>
+<section class="metrics" aria-label="Статистика"><div class="metric"><div class="metric-label">Агентов</div><div class="metric-value">05 <span style="font-size:12px;color:var(--muted)">/ 05</span></div></div><div class="metric"><div class="metric-label">Завершено</div><div class="metric-value green" id="doneCount">0</div></div><div class="metric"><div class="metric-label">Событий</div><div class="metric-value" id="eventCount">0</div></div><div class="metric"><div class="metric-label">Возвратов / лимит</div><div class="metric-value amber" id="loopCount">0 / 2</div></div></section>
+<section><div class="section-head"><h2><span style="color:var(--green)">01 /</span> AGENT PIPELINE</h2><span class="section-tag">НАЖМИТЕ НА АГЕНТА ДЛЯ ПОДРОБНОСТЕЙ</span></div><div class="pipeline"><div class="pipeline-track" id="row"></div><div class="loopinfo" id="loopInfo" aria-live="polite"></div></div></section>
+<div class="below"><section class="terminal"><div class="terminal-top"><span class="light"></span><span class="light"></span><span class="light"></span><span class="terminal-title">events.log — LIVE STREAM</span><div class="terminal-tools"><select id="agentFilter" class="select" aria-label="Фильтр по агенту"><option value="all">Все агенты</option></select><select id="statusFilter" class="select" aria-label="Фильтр по статусу"><option value="all">Все статусы</option><option value="running">running</option><option value="done">done</option><option value="failed">failed</option></select><button class="mini-btn" id="copyLogs" type="button">Копировать</button></div></div><div class="log-head"><span>ВРЕМЯ</span><span>АГЕНТ</span><span>СТАТУС</span><span>СОБЫТИЕ</span></div><div class="logs" id="events" role="log" aria-label="Лента событий"></div></section><aside class="inspector"><div class="terminal-top"><span style="color:var(--green)">▣</span><span class="terminal-title">agent.inspector</span><span style="margin-left:auto">READ ONLY</span></div><div class="inspector-body"><div class="inspect-id" id="inspectId">AGENT / 01</div><div class="inspect-title" id="inspectTitle">Дирижёр</div><div class="inspect-status" id="inspectStatus">STATUS: WAITING</div><div class="inspect-divider"></div><div class="inspect-label">ПОСЛЕДНИЙ РЕЗУЛЬТАТ</div><div class="inspect-summary" id="inspectSummary">Ожидание данных сервера...</div><div class="inspect-divider"></div><div class="inspect-label">ПОСЛЕДНЕЕ СОБЫТИЕ</div><div class="inspect-summary" id="inspectEvent">Нет событий</div><div class="inspect-note">Данные синхронизируются с /state каждую секунду.</div></div></aside></div>
+<footer class="footer"><span>AGENT CONTROL / TERMINAL OS v2</span><span id="lastSync">Ожидание синхронизации</span></footer>
+</main>
 <script>
-  const AGENTS = [
-    ["conductor", "Дирижёр"],
-    ["developer", "Разработчик"],
-    ["tester", "Тестировщик"],
-    ["reviewer", "Ревьюер"],
-    ["documenter", "Документатор"]
-  ];
-
-  function render(state) {
-    const row = document.getElementById("row");
-    row.innerHTML = "";
-    AGENTS.forEach(([id, name], i) => {
-      const info = state.agents[id] || { status: "waiting", summary: "ждёт" };
-      const box = document.createElement("div");
-      box.className = "agent " + info.status;
-      box.id = "agent-" + id;
-      box.innerHTML = "<b>" + name + "</b><small>" + info.summary + "</small>";
-      row.appendChild(box);
-      if (i < AGENTS.length - 1) {
-        const arrow = document.createElement("span");
-        arrow.className = "arrow";
-        arrow.textContent = "→";
-        row.appendChild(arrow);
-      }
-    });
-
-    const loops = countLoops(state.events);
-    const loopInfo = document.getElementById("loopInfo");
-    if (loops > 0) {
-      document.getElementById("agent-developer").classList.add("loop");
-      document.getElementById("agent-tester").classList.add("loop");
-      loopInfo.textContent = "Возврат к Разработчику: " + loops + " из 2";
-    } else {
-      loopInfo.textContent = "";
-    }
-
-    const events = document.getElementById("events");
-    events.innerHTML = state.events.slice().reverse().map(e =>
-      '<div class="event">' + e.time + " · " + e.agent + " · " + e.status + " · " + e.summary + "</div>"
-    ).join("");
-  }
-
-  function countLoops(events) {
-    let loops = 0;
-    let testerFailed = false;
-    for (const e of events) {
-      if (e.agent === "tester" && e.status === "failed") testerFailed = true;
-      if (e.agent === "developer" && e.status === "running" && testerFailed) {
-        loops++;
-        testerFailed = false;
-      }
-    }
-    return loops;
-  }
-
-  async function update() {
-    try {
-      const res = await fetch("/state");
-      render(await res.json());
-    } catch (e) {}
-  }
-
-  async function resetRun() {
-    await fetch("/reset", { method: "POST" });
-    update();
-  }
-
-  update();
-  setInterval(update, 1000);
+const AGENTS=[["conductor","Дирижёр","◈"],["developer","Разработчик","⌘"],["tester","Тестировщик","⚗"],["reviewer","Ревьюер","◎"],["documenter","Документатор","▤"]];
+let currentState={agents:{},events:[]};let selectedAgent="conductor";let updating=false;
+const $=id=>document.getElementById(id);
+function countLoops(events){let loops=0,failed=false;for(const e of events){if(e.agent==="tester"&&e.status==="failed")failed=true;if(e.agent==="developer"&&e.status==="running"&&failed){loops++;failed=false}}return loops}
+function setText(id,value){$(id).textContent=String(value??"")}
+function render(state){currentState=state;const agentStates=state.agents||{};const allEvents=Array.isArray(state.events)?state.events:[];const loops=countLoops(allEvents);setText("doneCount",AGENTS.filter(([id])=>agentStates[id]?.status==="done").length);setText("eventCount",allEvents.length);setText("loopCount",loops+" / 2");setText("loopInfo",loops?"↳ Возврат к разработчику: "+loops+" из 2":"");
+const row=$("row");row.replaceChildren();AGENTS.forEach(([id,name,icon],i)=>{const info=agentStates[id]||{status:"waiting",summary:"ждёт"};const box=document.createElement("button");box.type="button";box.className="agent "+( ["waiting","running","done","failed"].includes(info.status)?info.status:"waiting")+(selectedAgent===id?" selected":"")+(loops>0&&(id==="developer"||id==="tester")?" loop":"");box.id="agent-"+id;box.setAttribute("aria-pressed",String(selectedAgent===id));const top=document.createElement("div");top.className="agent-top";const symbol=document.createElement("span");symbol.className="agent-icon";symbol.textContent=icon;const code=document.createElement("span");code.className="agent-code";code.textContent="0"+(i+1)+" / 05";top.append(symbol,code);const title=document.createElement("div");title.className="agent-name";title.textContent=name;const status=document.createElement("div");status.className="agent-status";status.textContent="● "+String(info.status||"waiting").toUpperCase();const summary=document.createElement("div");summary.className="agent-summary";summary.textContent=info.summary??"ждёт";box.append(top,title,status,summary);box.addEventListener("click",()=>{selectedAgent=id;render(currentState)});row.appendChild(box);if(i<AGENTS.length-1){const arrow=document.createElement("span");arrow.className="connector"+(info.status==="done"?" active":"");arrow.textContent="→";row.appendChild(arrow)}});
+const [index,name]=[AGENTS.findIndex(a=>a[0]===selectedAgent),AGENTS.find(a=>a[0]===selectedAgent)?.[1]||selectedAgent];const selected=agentStates[selectedAgent]||{status:"waiting",summary:"ждёт"};setText("inspectId","AGENT / "+String(index+1).padStart(2,"0"));setText("inspectTitle",name);setText("inspectStatus","STATUS: "+String(selected.status||"waiting").toUpperCase());setText("inspectSummary",selected.summary||"Нет данных");const lastEvent=allEvents.slice().reverse().find(e=>e.agent===selectedAgent);setText("inspectEvent",lastEvent?`${lastEvent.time||""} · ${lastEvent.status||""}\n${lastEvent.summary||""}`:"Нет событий");renderEvents()}
+function renderEvents(){const agent=$("agentFilter").value,status=$("statusFilter").value;const events=(currentState.events||[]).filter(e=>(agent==="all"||e.agent===agent)&&(status==="all"||e.status===status)).slice().reverse();const container=$("events");container.replaceChildren();if(!events.length){const empty=document.createElement("div");empty.className="empty";empty.textContent="// Событий пока нет";container.appendChild(empty);return}const frag=document.createDocumentFragment();for(const e of events){const row=document.createElement("div");row.className="log-row";for(const [value,cls] of [[e.time,"log-time"],[e.agent,"log-agent"],[e.status,"log-status "+(["running","done","failed"].includes(e.status)?e.status:"")],[e.summary,"log-summary"]]){const cell=document.createElement("span");cell.className=cls;cell.textContent=value??"";row.appendChild(cell)}frag.appendChild(row)}container.appendChild(frag)}
+for(const [id,name] of AGENTS){const option=document.createElement("option");option.value=id;option.textContent=name;$("agentFilter").appendChild(option)}$("agentFilter").addEventListener("change",renderEvents);$("statusFilter").addEventListener("change",renderEvents);
+$("copyLogs").addEventListener("click",async()=>{const a=$("agentFilter").value,s=$("statusFilter").value;const text=(currentState.events||[]).filter(e=>(a==="all"||e.agent===a)&&(s==="all"||e.status===s)).map(e=>[e.time,e.agent,e.status,e.summary].join(" · ")).join("\n");try{await navigator.clipboard.writeText(text);const btn=$("copyLogs");btn.textContent="Скопировано ✓";setTimeout(()=>btn.textContent="Копировать",1400)}catch{alert("Не удалось скопировать лог")}});
+async function update(){if(updating)return;updating=true;try{const res=await fetch("/state",{cache:"no-store"});if(!res.ok)throw Error("HTTP "+res.status);const data=await res.json();if(!data||typeof data!=="object"||!data.agents||!Array.isArray(data.events))throw Error("Неверный формат /state");render(data);$("connectionDot").className="dot online";setText("connectionText","СЕРВЕР ONLINE");setText("lastSync","SYNC "+new Date().toLocaleTimeString("ru-RU"))}catch(e){$("connectionDot").className="dot offline";setText("connectionText","СЕРВЕР OFFLINE");setText("lastSync","Ошибка соединения: "+e.message)}finally{updating=false}}
+async function resetRun(){const btn=$("resetButton");btn.disabled=true;try{const res=await fetch("/reset",{method:"POST"});if(!res.ok)throw Error("HTTP "+res.status);await update()}catch(e){alert("Не удалось сбросить прогон: "+e.message)}finally{btn.disabled=false}}
+$("resetButton").addEventListener("click",resetRun);render(currentState);update();setInterval(update,1000);
 </script>
 </body>
 </html>
