@@ -16,6 +16,8 @@ def save_tasks(tasks):
 
 
 def add_task(title):
+    if not title.strip():
+        raise ValueError("Task title must not be empty")
     tasks = load_tasks()
     new_id = max([t["id"] for t in tasks], default=0) + 1
     tasks.append({"id": new_id, "title": title, "done": False})
@@ -40,27 +42,43 @@ def complete_task(task_id):
 def main():
     if len(sys.argv) < 2:
         print("Usage: python tasks.py [add <title> | list | done <id>]")
-        return
+        return 1
 
     command = sys.argv[1]
 
     if command == "add":
         title = " ".join(sys.argv[2:])
+        if not title.strip():
+            print("Task title must not be empty", file=sys.stderr)
+            return 1
         task_id = add_task(title)
         print(f"Added task #{task_id}: {title}")
     elif command == "list":
+        if len(sys.argv) != 2:
+            print("Usage: python tasks.py list", file=sys.stderr)
+            return 1
         for t in list_tasks():
             mark = "x" if t["done"] else " "
             print(f"[{mark}] {t['id']}. {t['title']}")
     elif command == "done":
-        task_id = int(sys.argv[2])
+        if len(sys.argv) != 3:
+            print("Usage: python tasks.py done <id>", file=sys.stderr)
+            return 1
+        try:
+            task_id = int(sys.argv[2])
+        except ValueError:
+            print("Task ID must be an integer", file=sys.stderr)
+            return 1
         if complete_task(task_id):
             print(f"Task #{task_id} completed")
         else:
             print(f"Task #{task_id} not found")
+            return 1
     else:
-        print(f"Unknown command: {command}")
+        print(f"Unknown command: {command}", file=sys.stderr)
+        return 1
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())
