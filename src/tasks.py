@@ -48,10 +48,11 @@ def main():
 
     if command == "add":
         title = " ".join(sys.argv[2:])
-        if not title.strip():
-            print("Task title must not be empty", file=sys.stderr)
+        try:
+            task_id = add_task(title)
+        except ValueError as error:
+            print(str(error), file=sys.stderr)
             return 1
-        task_id = add_task(title)
         print(f"Added task #{task_id}: {title}")
     elif command == "list":
         if len(sys.argv) != 2:
